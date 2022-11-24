@@ -1,15 +1,16 @@
 package Main;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import com.IOmanager;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        IOmanager reader = new IOmanager();
+
+        UserInterface ui = new UserInterface();
+        ui.run();
+
+        // IOmanager reader = new IOmanager();
+        // reader.readCSV("src/com/account.csv");
+
         
-        Path accountPath = Paths.get("src/com/account.csv");
-        reader.readCSV(accountPath);
     }
 }
