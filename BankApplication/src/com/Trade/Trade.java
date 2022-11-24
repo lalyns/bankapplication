@@ -43,8 +43,5 @@ public class Trade {
     public TradeType getTradeType() { return tradeType; }
     public int getFee() { return fee; }
     public String getBankName() { return bankName; }
-
-
-
     
 }
