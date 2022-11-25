@@ -1,17 +1,33 @@
 package com.Trade;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.Arrays;
 
 public class Trade {
     
     public enum TradeType {
-        Deposit,
-        Withdraw
+        Deposit(1),
+        Withdraw(2);
+
+        private final int label;
+
+        TradeType(int label) {
+            this.label = label;
+        }
+        
+        public int label() {
+            return label;
+        }
+
+        public static TradeType valueOfLabel(int label) {
+            return Arrays.stream(values())
+                        .filter(value -> value.label == label)
+                        .findAny()
+                        .orElse(null);
+        }
     }
 
-    private LocalDate date;
-    private LocalTime time;
+    private String date;
+    private String time;
     private String accountNumber;
     private TradeType tradeType;
     private int fee;
@@ -21,7 +37,7 @@ public class Trade {
     public Trade() {
     }
 
-    public Trade(LocalDate date, LocalTime time, String accountNumber, TradeType tradeType, int fee, String bankName) {
+    public Trade(String date, String time, String accountNumber, TradeType tradeType, int fee, String bankName) {
         this.date = date;
         this.time = time;
         this.accountNumber = accountNumber;
@@ -37,8 +53,8 @@ public class Trade {
     }
 
     // 게터
-    public LocalDate getDate() { return date; }
-    public LocalTime getTime() { return time; }
+    public String getDate() { return date; }
+    public String getTime() { return time; }
     public String getAccountNumber() { return accountNumber; }
     public TradeType getTradeType() { return tradeType; }
     public int getFee() { return fee; }

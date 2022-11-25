@@ -21,6 +21,36 @@ public class IOmanager {
     public IOmanager() {
     }
 
+    public String createCSV(String path, int index) {
+
+        String fileName = "trade" + index + ".csv";
+        File csv = new File(path + fileName);
+
+        FileOutputStream output = null;
+        BufferedWriter bw = null;
+        
+        try {
+            output = new FileOutputStream(csv, true);
+            bw = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
+            String aData = "일자,시간,I/O,금액,은행명";
+            bw.write(aData);
+            bw.newLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if (bw!=null) {
+                    bw.flush();
+                    bw.close();
+                } 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } 
+
+        return fileName;
+    }
+
     public List<List<String>> readCSV(String path) {
         try {
             // 입력 스트림 생성
