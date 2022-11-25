@@ -49,28 +49,28 @@ public class Account {
             Trade newtrade = new Trade(date, time, this.accountNumber, tradeType, fee, tradeBankName);
             trades.add(newtrade);
         }
-
+        deposit(1000);
+        withdraw(1000);
     }
 
     // 매소드
     // 입금
     void deposit(int fee) {
         this.balance += fee;
-        record(fee);
+        record(fee, TradeType.Deposit);
     }
     
     // 출금
     void withdraw(int fee) {
         this.balance -= fee;
-        record(fee);
+        record(fee, TradeType.Withdraw);
     }
 
     // 입출금을 기록하는 매소드
-    void record(int fee) {
+    void record(int fee, TradeType tradeType) {
         LocalDateTime dt = LocalDateTime.now();
         String date = dt.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         String time = dt.format((DateTimeFormatter.ofPattern("HH:mm:ss")));
-        TradeType tradeType = TradeType.Deposit;
         int type = tradeType.label();
         String tradeBankName = this.bankName;
 

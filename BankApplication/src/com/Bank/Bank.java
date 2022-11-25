@@ -72,7 +72,6 @@ public class Bank {
         // account .split (' ') ('-')
         // [] -> 이걸한번에 다 합친다
 
-
         String tmp = number.replaceAll("[^0-9]","");
         Pattern pattern = Pattern.compile("^\\d{12,14}$");
         Matcher matcher = pattern.matcher(tmp);
