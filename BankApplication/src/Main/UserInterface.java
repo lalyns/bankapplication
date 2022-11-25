@@ -118,6 +118,5 @@ public class UserInterface {
         System.out.println("2. 계좌 관리"); 
         System.out.println("3. 계좌 찾기"); // 계좌를 찾을땐 2가지 방법 -> 계좌 찾게되면 어떤 동작? 계좌메뉴로 넘겨준다
         System.out.println("4. 계좌 목록조회");
-
     }
 }

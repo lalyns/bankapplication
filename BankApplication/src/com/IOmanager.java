@@ -10,14 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.Account.Account;
 
 public class IOmanager {
     List<List<String>> ret = new ArrayList<>();
@@ -77,7 +72,6 @@ public class IOmanager {
             }
             bw.write(aData);
             bw.newLine();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

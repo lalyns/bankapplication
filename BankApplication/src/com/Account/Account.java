@@ -18,7 +18,7 @@ public class Account {
     }
 
     
-    public Account(String user, String accountNumber, int balance, String bankName, String tradePath) {
+    public Account(String user, String accountNumber, int balance, String bankName) {
         this.user           = user;
         this.accountNumber  = accountNumber;
         this.balance        = balance;
@@ -26,14 +26,17 @@ public class Account {
         trades = new ArrayList<>();
     }
 
+    void setTrade() {}
 
-    
     // 매소드
     // 입금
     void deposit() {}
     
     // 출금
     void withdraw() {}
+
+    // 거래내역 출력
+    void veiwTrades() {}
 
     // 잔고확인
     public String getUser() { return user; }

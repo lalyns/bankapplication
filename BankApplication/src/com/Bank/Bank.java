@@ -1,6 +1,5 @@
 package com.Bank;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,8 +15,7 @@ public class Bank {
     IOmanager io;
 
     final String ACCOUNTPATH = "src/com/account.csv";
-     
-    
+
     // -> 하나의 계좌만 찾게 될거같고
     HashMap<String, Account> number = new HashMap<>();
     // -> 사용자 하나가 여러개 계좌 만들수 있을수 있으니깐 여러개 반환될 가능성이 높아요
@@ -40,13 +38,12 @@ public class Bank {
             String accountNumber = lists.get(i).get(1);
             int balance = Integer.valueOf(lists.get(i).get(2));
             String bankName = lists.get(i).get(3);
-            String tradePath = "";
-            Account account = new Account(user, accountNumber, balance, bankName, tradePath);
+            Account account = new Account(user, accountNumber, balance, bankName);
             this.accounts.add(account);
-
         }
 
 
+        // 정상적으로 작동하는지 확인하기 위한 콘솔 코드
         for (int i=0; i<this.accounts.size(); i++)
         {
             String user = accounts.get(i).getUser();
@@ -71,7 +68,6 @@ public class Bank {
         String account = "";
         int balance = 0;
         String bankName = "";
-        String tradePath = "";
 
         System.out.println("새로운 계좌를 등록합니다.");
         System.out.print("계좌주 : ");
@@ -102,18 +98,22 @@ public class Bank {
 
         // 거래내역 파일 생성후, 거래내역 파일의 주소를 저장해서 넣어준다.
 
-        Account newAccount = new Account(user, account, balance, bankName, tradePath);
-
+        Account newAccount = new Account(user, account, balance, bankName);
         
-        String temp[] = {user, account, String.valueOf(balance), bankName, tradePath};
+        // 현재 계좌 리스트에 새로운 계좌 정보를 추가해준다
+        accounts.add(newAccount);
 
+        String temp[] = {user, account, String.valueOf(balance), bankName};
         List<String> accountInfo = Arrays.asList(temp);
 
         // 해당 계좌를 csv 파일에 입력해주기
         io.writeCSV(ACCOUNTPATH, accountInfo);
     };
-    // 계좌 관리하기
-    public void manage() {};
+
+    // 계좌 관리하기 (수정 or 삭제)
+    public void manage() {
+
+    };
     // 계좌 검색하기
     public void search() {};
     // 계좌 목록 조회 -> 어카운트 리스트를 반환한다?
