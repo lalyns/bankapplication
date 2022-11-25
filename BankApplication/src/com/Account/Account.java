@@ -39,12 +39,12 @@ public class Account {
         trades = new ArrayList<>();
         for (int i=1; i<tradeLists.size(); i++)
         {
-            String date = tradeLists.get(i).get(1);
-            String time = tradeLists.get(i).get(2);
-            int type = Integer.valueOf(tradeLists.get(i).get(3));
+            String date = tradeLists.get(i).get(0);
+            String time = tradeLists.get(i).get(1);
+            int type = Integer.valueOf(tradeLists.get(i).get(2));
             TradeType tradeType = TradeType.valueOfLabel(type);
-            int fee =  Integer.valueOf(tradeLists.get(i).get(4));
-            String tradeBankName = tradeLists.get(i).get(5);
+            int fee =  Integer.valueOf(tradeLists.get(i).get(3));
+            String tradeBankName = tradeLists.get(i).get(4);
 
             Trade newtrade = new Trade(date, time, this.accountNumber, tradeType, fee, tradeBankName);
             trades.add(newtrade);
