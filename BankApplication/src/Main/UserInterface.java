@@ -94,7 +94,7 @@ public class UserInterface {
             break;
             case BANKMENU_SEARCHALL :
                 System.out.println("전체 계좌를 조회합니다.");
-                // 함수 생성후 넣어주기
+                bank.searchAll();
                 break;
         }
     }

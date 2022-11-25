@@ -1,0 +1,36 @@
+
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÍØ½£ùÿÿÿÿ8­·ôÊ0
+p	java:S116"VRename this field "ACCOUNTPATH" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î¥«øÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(î¥«øÿÿÿÿ
+—
+java:S1186v"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ş ®÷
+£
+java:S1186}"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(î±ìøÿÿÿÿ8è¸ôÊ0
+N
+java:S1117'"8Rename "user" which hides the field declared at line 23.(³²ñ³
+T
+java:S2130)"9Use "Integer.parseInt" for this string-to-int conversion.(µÁœ¤úÿÿÿÿ
+N
+java:S11173"8Rename "user" which hides the field declared at line 23.(”‹°‰
+N	java:S1068"9Replace this use of System.out or System.err by a logger.(°éÓõ
+S
+java:S1117E"8Rename "user" which hides the field declared at line 23.(Ñ×›İüÿÿÿÿ
+N	java:S106K"9Replace this use of System.out or System.err by a logger.(Â–äĞ
+N	java:S106L"9Replace this use of System.out or System.err by a logger.(·È«â
+S	java:S106P"9Replace this use of System.out or System.err by a logger.(Ö†èõûÿÿÿÿ
+S	java:S106X"9Replace this use of System.out or System.err by a logger.(¢ôÌ¹ûÿÿÿÿ
+N	java:S106]"9Replace this use of System.out or System.err by a logger.(èÈíş
+N	java:S106a"9Replace this use of System.out or System.err by a logger.(ê—…
+E
+java:S1197l"*Move the array designators [] to the type.(¶‡Ïğùÿÿÿÿ
+7
+java:S1116s"Remove this empty statement.(Åñ­õşÿÿÿÿ
+7
+java:S1116z"Remove this empty statement.(Åñ­õşÿÿÿÿ
+V	java:S106€"9Replace this use of System.out or System.err by a logger.(¦œß®8É¹ôÊ0
+V	java:S106"9Replace this use of System.out or System.err by a logger.(Íœ¨Œ8Ë¹ôÊ0
+V	java:S106‚"9Replace this use of System.out or System.err by a logger.(¦œß®8Í¹ôÊ0
+V
+java:S1117„"8Rename "user" which hides the field declared at line 23.(”‹°‰8Ñ¹ôÊ0
+V	java:S106‰"9Replace this use of System.out or System.err by a logger.(°éÓõ8Ö¹ôÊ0
