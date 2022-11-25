@@ -1,16 +1,25 @@
 package com.Account;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.IOmanager;
 import com.Trade.Trade;
+import com.Trade.Trade.TradeType;
 
 public class Account {
+    // 상수
+    public static final String TRADEPATH = "src/com/Trade/";
+
     // 멤버 변수
     private String user;
     private String accountNumber;
     private int balance;
     private String bankName;
+    private String fileName;
     private List<Trade> trades;
 
     // 생성자
@@ -18,22 +27,59 @@ public class Account {
     }
 
     
-    public Account(String user, String accountNumber, int balance, String bankName) {
+    public Account(String user, String accountNumber, int balance, String bankName, String trade) {
         this.user           = user;
         this.accountNumber  = accountNumber;
         this.balance        = balance;
         this.bankName       = bankName;
-        trades = new ArrayList<>();
-    }
+        this.fileName       = trade;
 
-    void setTrade() {}
+        IOmanager io = new IOmanager();
+        List<List<String>> tradeLists = io.readCSV(TRADEPATH + trade);
+        trades = new ArrayList<>();
+        for (int i=1; i<tradeLists.size(); i++)
+        {
+            String date = tradeLists.get(i).get(1);
+            String time = tradeLists.get(i).get(2);
+            int type = Integer.valueOf(tradeLists.get(i).get(3));
+            TradeType tradeType = TradeType.valueOfLabel(type);
+            int fee =  Integer.valueOf(tradeLists.get(i).get(4));
+            String tradeBankName = tradeLists.get(i).get(5);
+
+            Trade newtrade = new Trade(date, time, this.accountNumber, tradeType, fee, tradeBankName);
+            trades.add(newtrade);
+        }
+
+    }
 
     // 매소드
     // 입금
-    void deposit() {}
+    void deposit(int fee) {
+        this.balance += fee;
+        record(fee);
+    }
     
     // 출금
-    void withdraw() {}
+    void withdraw(int fee) {
+        this.balance -= fee;
+        record(fee);
+    }
+
+    // 입출금을 기록하는 매소드
+    void record(int fee) {
+        LocalDateTime dt = LocalDateTime.now();
+        String date = dt.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        String time = dt.format((DateTimeFormatter.ofPattern("HH:mm:ss")));
+        TradeType tradeType = TradeType.Deposit;
+        int type = tradeType.label();
+        String tradeBankName = this.bankName;
+
+        String temp[] = {date, time, String.valueOf(type), String.valueOf(fee), tradeBankName};
+        List<String> list = Arrays.asList(temp);
+
+        IOmanager io = new IOmanager();
+        io.writeCSV(TRADEPATH + this.fileName, list);
+    }
 
     // 거래내역 출력
     void veiwTrades() {}

@@ -6,7 +6,7 @@ import com.Bank.Bank;
 
 public class UserInterface {
 
-    // 전역 변수
+    // 상수
     public static final int STANDARD = -1;
 
     static final int BANKMENU_REGISTER  = 1;

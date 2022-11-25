@@ -10,11 +10,12 @@ import com.IOmanager;
 import com.Account.Account;
 
 public class Bank {
+    // 상수
+    final String ACCOUNTPATH = "src/com/account.csv";
+
     // 멤버변수
     List<Account> accounts;
     IOmanager io;
-
-    final String ACCOUNTPATH = "src/com/account.csv";
 
     // -> 하나의 계좌만 찾게 될거같고
     HashMap<String, Account> number = new HashMap<>();
@@ -29,21 +30,22 @@ public class Bank {
         accounts = new ArrayList<>(); 
         io = new IOmanager();
 
-        List<List<String>> lists = new ArrayList<>();
-        lists = io.readCSV(ACCOUNTPATH);
+        // 계좌 정보를 저장하는 리스트 [계좌주, 계좌번호, 잔고, 은행명]
+        List<List<String>> accountLists = new ArrayList<>();
+        accountLists = io.readCSV(ACCOUNTPATH);
 
-        for (int i=1; i<lists.size(); i++){
-            
-            String user = lists.get(i).get(0);
-            String accountNumber = lists.get(i).get(1);
-            int balance = Integer.valueOf(lists.get(i).get(2));
-            String bankName = lists.get(i).get(3);
-            Account account = new Account(user, accountNumber, balance, bankName);
+        for (int i=1; i<accountLists.size(); i++){
+            String user = accountLists.get(i).get(0);
+            String accountNumber = accountLists.get(i).get(1);
+            int balance = Integer.valueOf(accountLists.get(i).get(2));
+            String bankName = accountLists.get(i).get(3);
+            String trade = accountLists.get(i).get(4);
+            Account account = new Account(user, accountNumber, balance, bankName, trade);
             this.accounts.add(account);
         }
 
 
-        // 정상적으로 작동하는지 확인하기 위한 콘솔 코드
+        // 정상적으로 작동하는지 확인하기 위한 콘솔
         for (int i=0; i<this.accounts.size(); i++)
         {
             String user = accounts.get(i).getUser();
@@ -68,6 +70,7 @@ public class Bank {
         String account = "";
         int balance = 0;
         String bankName = "";
+        String trade = "";
 
         System.out.println("새로운 계좌를 등록합니다.");
         System.out.print("계좌주 : ");
@@ -97,13 +100,14 @@ public class Bank {
         bankName = sc.nextLine();
 
         // 거래내역 파일 생성후, 거래내역 파일의 주소를 저장해서 넣어준다.
+        trade = io.createCSV(Account.TRADEPATH, accounts.size() + 1);
 
-        Account newAccount = new Account(user, account, balance, bankName);
+        Account newAccount = new Account(user, account, balance, bankName, trade);
         
         // 현재 계좌 리스트에 새로운 계좌 정보를 추가해준다
         accounts.add(newAccount);
 
-        String temp[] = {user, account, String.valueOf(balance), bankName};
+        String temp[] = {user, account, String.valueOf(balance), bankName, trade};
         List<String> accountInfo = Arrays.asList(temp);
 
         // 해당 계좌를 csv 파일에 입력해주기
