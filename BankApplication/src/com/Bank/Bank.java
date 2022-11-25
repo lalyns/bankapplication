@@ -9,11 +9,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
-import Main.UserInterface;
 import com.IOmanager;
 import com.Account.Account;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 
 public class Bank {
     // 상수
@@ -49,17 +46,7 @@ public class Bank {
             String trade = accountLists.get(i).get(4);
             Account account = new Account(user, accountNumber, balance, bankName, trade);
 
-
-
-        for (int i = 1; i < lists.size(); i++) {
-
-            String user = lists.get(i).get(0);
-            String accountNumber = lists.get(i).get(1);
-            int balance = Integer.valueOf(lists.get(i).get(2));
-            String bankName = lists.get(i).get(3);
-            Account account = new Account(user, accountNumber, balance, bankName);
-
-            this.accounts.add(account);
+            accounts.add(account);
         }
 
         // 정상적으로 작동하는지 확인하기 위한 콘솔 코드
@@ -198,8 +185,6 @@ public class Bank {
     ;
 
     // 계좌 검색하기
-    public void search() {
-    }
     public void searchAll() {
         System.out.println("---------");
         System.out.println("계좌목록");
@@ -217,4 +202,5 @@ public class Bank {
         }
 
     }
+    
 }
