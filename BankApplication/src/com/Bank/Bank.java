@@ -68,13 +68,9 @@ public class Bank {
     // 입력받은 값이 12~14자리 인지 확인
     // 유효성검사 메소드
     public boolean checkAccount(String number) {
-        // 문자 (하이픈) 하나로 제한하는게 더 좋아보임 - / ' ' -> 지나갈수잇게하고 아니면 못지나가게 해야할거같습니다.
-        // account .split (' ') ('-')
-        // [] -> 이걸한번에 다 합친다
 
-
-        String tmp = number.replaceAll("[^0-9]","");
-        Pattern pattern = Pattern.compile("^\\d{12,14}$");
+        String tmp = number.replaceAll("[- .]","");    //1)-, , . 을 ""으로 변환
+        Pattern pattern = Pattern.compile("^\\d{12,14}$");       //2)문자, 특수문자가 입력될 경우 -> 계좌번호가 올바르지 않습니다.
         Matcher matcher = pattern.matcher(tmp);
         if (matcher.matches()) {
             System.out.println("계좌번호가 확인 되었습니다.");
@@ -85,8 +81,6 @@ public class Bank {
         }
 
     }
-
-    // 계좌 등록하기
     public void register() {
         // 예금주, 계좌번호, 잔고, 은행명을 기입한다.
         String user = "";
