@@ -86,7 +86,7 @@ public class UserInterface {
                 break;
             case BANKMENU_MANAGE :
                 System.out.println("계좌를 수정/제거 합니다.");
-                bank.manage();
+                bank.deleteAccount();
                 break;
             case BANKMENU_SEARCH :
                 System.out.println("계좌를 찾습니다.");

@@ -1,5 +1,6 @@
 package com.Bank;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -154,11 +155,33 @@ public class Bank {
     }
 
     ;
+    public  void deleteAccount() {
+        int index = -1;
 
-    // 계좌 관리하기 (수정 or 삭제)
+
+        while (true) {
+            searchAll(); //등록된 계좌 목록 조회하기.
+
+            System.out.println("등록된 계좌를 삭제합니다.");
+            System.out.println("삭제할 계좌목록 : ");
+            index = Integer.valueOf(sc.nextLine());
+
+
+            if (index < 1 || index > accounts.size()) {
+                System.out.println("잘못된 입력입니다.");
+            } else {
+                accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
+            }
+        }
+    }
+
+// 계좌 관리하기 (수정 or 삭제)
     public void manage() {
 
+
     }
+
+
 
     // 계좌 검색하기
     public Account search() {
@@ -201,12 +224,12 @@ public class Bank {
         System.out.println("---------");
         for (int i = 0; i < this.accounts.size(); i++) {
             String user = accounts.get(i).getUser();
-            String accountNumger = accounts.get(i).getAccountNumber();
+            String accountNumber = accounts.get(i).getAccountNumber();
             int balance = accounts.get(i).getBalance();
             String bankName = accounts.get(i).getBankName();
 
             System.out.println("계좌주(" + user + ")" +
-                    "  계좌번호(" + accountNumger + ")" +
+                    "  계좌번호(" + accountNumber + ")" +
                     "  잔고(" + balance + ")" +
                     "  은행명(" + bankName + ")");
         }
