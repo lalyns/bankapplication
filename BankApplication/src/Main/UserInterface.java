@@ -2,6 +2,7 @@ package Main;
 
 import java.util.Scanner;
 
+import com.Account.Account;
 import com.Bank.Bank;
 
 public class UserInterface {
@@ -13,11 +14,17 @@ public class UserInterface {
     static final int BANKMENU_MANAGE    = 2;
     static final int BANKMENU_SEARCH    = 3;
     static final int BANKMENU_SEARCHALL = 4;
-    
+
+    static final int ACCOUNT_DEPOSIT    = 1;
+    static final int ACCOUNT_WITHDRAW   = 2;
+    static final int ACCOUNT_SEARCH     = 3;
+    static final int ACCOUNT_VEIWTRADES = 4;
+
     // 멤버변수
     private Scanner sc;
     private MenuType curType;
     private Bank bank;
+    private Account reTurnAccount;
 
     // 게터 및 세터
     public MenuType getCurType() { return curType; }
@@ -68,11 +75,13 @@ public class UserInterface {
 
             if (curType == MenuType.BANK) {
                 bankMenu(sellection);
+                continue;
                 
             }
 
             if (curType == MenuType.ACCOUNT) {
                 accountMenu(sellection);
+                continue;
             }
         }
     }
@@ -90,8 +99,9 @@ public class UserInterface {
                 break;
             case BANKMENU_SEARCH :
                 System.out.println("계좌를 찾습니다.");
-                bank.search();
-            break;
+                reTurnAccount = bank.search();
+                curType = MenuType.ACCOUNT;
+                break;
             case BANKMENU_SEARCHALL :
                 System.out.println("전체 계좌를 조회합니다.");
                 bank.searchAll();
@@ -101,6 +111,25 @@ public class UserInterface {
 
     // 계좌 메뉴 선택시 해당 메뉴를 수행하는 메소드
     private void accountMenu(int sellection) {
+
+        switch (sellection) {
+            case ACCOUNT_DEPOSIT:
+                System.out.println("입금을 시작");
+//                reTurnAccount.deposit();
+                break;
+            case ACCOUNT_WITHDRAW:
+                System.out.println("출금 시작");
+//                reTurnAccount.withdraw();
+                break;
+            case ACCOUNT_SEARCH:
+                System.out.println("잔고를 확인합니다");
+//                Account.search();
+                break;
+            case ACCOUNT_VEIWTRADES:
+                System.out.println("거래 내역을 조회합니다");
+//                reTurnAccount.veiwTrades();
+                break;
+        }
     }
     
 
