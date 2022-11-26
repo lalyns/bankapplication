@@ -1,5 +1,6 @@
 package com.Bank;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -115,13 +116,9 @@ public class Bank {
             account = sc.nextLine();
             boolean isCorrect = checkAccount(account);
             // 정규표현식 조사할 것 만약 아니면 올바른 입력값이 들어오기전까지 반복
-<<<<<<< HEAD
-            if(isCorrect) {
-=======
 
             //입력받은 값에서 숫자를 제외한 모든 문자열을 공백처리
             if (isCorrect) {
->>>>>>> 73ce554ebafc7f3d75ada2d248db4c3a44aa6818
                 break;
             }
 
@@ -158,32 +155,30 @@ public class Bank {
     }
 
     ;
-
-    // 계좌 관리하기 (수정 or 삭제)
-    public void manage() {
-        String account = "";
+    public  void deleteAccount() {
+        int index = -1;
 
 
-        while(true) {
+        while (true) {
+            searchAll(); //등록된 계좌 목록 조회하기.
+
             System.out.println("등록된 계좌를 삭제합니다.");
-            System.out.println("삭제할 계좌번호 : ");
-            account = sc.nextLine();
-            boolean isCorrect = checkAccount(account);      //계좌번호가 올바른지 확인.
+            System.out.println("삭제할 계좌목록 : ");
+            index = Integer.valueOf(sc.nextLine());
 
-            if (isCorrect) {
-                break;
+
+            if (index < 1 || index > accounts.size()) {
+                System.out.println("잘못된 입력입니다.");
+            } else {
+                accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
             }
         }
-        System.out.println("정상적으로 처리 되었습니다.");
+    }
 
-        Account deleteAccount = new Account(account); //여기에서 생성자를 만들었는데 괜찮은지?
-        accounts.remove(deleteAccount);
+// 계좌 관리하기 (수정 or 삭제)
+    public void manage() {
 
-        String temp[] = {account};
-        List<String> accountInfo = Arrays.asList(temp);
 
-        // 해당 계좌를 csv 파일에 입력해주기
-        io.writeCSV(ACCOUNTPATH, accountInfo);
     }
 
 
