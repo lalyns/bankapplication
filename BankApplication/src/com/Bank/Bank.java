@@ -20,6 +20,16 @@ public class Bank {
     List<Account> accounts;
     IOmanager io;
 
+    // 싱글톤 선언
+    private static Bank instance;
+    public static Bank getInstance() {
+        if (instance == null) {
+            instance = new Bank();
+        }
+
+        return instance;
+    }
+
     // -> 하나의 계좌만 찾게 될거같고
     HashMap<String, Account> number = new HashMap<>();
     // -> 사용자 하나가 여러개 계좌 만들수 있을수 있으니깐 여러개 반환될 가능성이 높아요
@@ -140,7 +150,7 @@ public class Bank {
         List<String> accountInfo = Arrays.asList(temp);
 
         // 해당 계좌를 csv 파일에 입력해주기
-        io.writeCSV(ACCOUNTPATH, accountInfo);
+        io.writeCSV(ACCOUNTPATH, accountInfo, true);
     }
 
     ;

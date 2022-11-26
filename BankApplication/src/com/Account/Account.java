@@ -78,7 +78,7 @@ public class Account {
         List<String> list = Arrays.asList(temp);
 
         IOmanager io = new IOmanager();
-        io.writeCSV(TRADEPATH + this.fileName, list);
+        io.writeCSV(TRADEPATH + this.fileName, list, true);
     }
 
     // 거래내역 출력
