@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.IOmanager;
+import com.Bank.Bank;
 import com.Trade.Trade;
 import com.Trade.Trade.TradeType;
 
@@ -49,24 +50,25 @@ public class Account {
             Trade newtrade = new Trade(date, time, this.accountNumber, tradeType, fee, tradeBankName);
             trades.add(newtrade);
         }
-        deposit(1000);
-        withdraw(1000);
     }
 
     // 매소드
     // 입금
-    void deposit(int fee) {
+    public void deposit(int fee) {
         this.balance += fee;
         record(fee, TradeType.Deposit);
     }
     
     // 출금
-    void withdraw(int fee) {
+    public void withdraw(int fee) {
         this.balance -= fee;
         record(fee, TradeType.Withdraw);
     }
 
     // 입출금을 기록하는 매소드
+    // notify 필요할거 같은데?
+    // 델리게이트 사용하면 괜찮을거 같은데..
+    // 아니면 bank를 싱글톤 선언?
     void record(int fee, TradeType tradeType) {
         LocalDateTime dt = LocalDateTime.now();
         String date = dt.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -79,6 +81,12 @@ public class Account {
 
         IOmanager io = new IOmanager();
         io.writeCSV(TRADEPATH + this.fileName, list, true);
+        Bank.getInstance().notifyAccountInfoChange(accountNumber, infotoList(this));
+    }
+
+    List<String> infotoList(Account account) {
+        String temp[] = {this.user, this.accountNumber, String.valueOf(this.balance), this.bankName, this.fileName };
+        return Arrays.asList(temp);
     }
 
     // 거래내역 출력

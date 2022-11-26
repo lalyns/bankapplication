@@ -18,6 +18,10 @@ public class Bank {
 
     // 멤버변수
     List<Account> accounts;
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
     IOmanager io;
 
     // 싱글톤 선언
@@ -26,7 +30,6 @@ public class Bank {
         if (instance == null) {
             instance = new Bank();
         }
-
         return instance;
     }
 
@@ -210,6 +213,12 @@ public class Bank {
                     "  은행명(" + bankName + ")");
         }
 
+    }
+
+    public void notifyAccountInfoChange(String accountNumber, List<String> account) {
+        // key 1 = 어카운트로 탐색(명시할것)
+        io.rewriteCSV(ACCOUNTPATH, 1, accountNumber, account);
+        
     }
     
 }
