@@ -27,7 +27,7 @@ public class UserInterface {
     public UserInterface() {
         sc = new Scanner(System.in);
         curType = MenuType.BANK;
-        bank = new Bank();
+        bank = Bank.getInstance();
     }
 
     // enum 타입

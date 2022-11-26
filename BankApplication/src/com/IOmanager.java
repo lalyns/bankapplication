@@ -9,11 +9,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import Main.UserInterface;
+
+// csv파일 파싱을 위한 클래스
 public class IOmanager {
     List<List<String>> ret = new ArrayList<>();
     BufferedReader br = null;
@@ -21,6 +24,7 @@ public class IOmanager {
     public IOmanager() {
     }
 
+    // 새로운 계좌 정보가 추가될 경우, 거래내역을 담을 csv파일 생성
     public String createCSV(String path, int index) {
 
         String fileName = "trade" + index + ".csv";
@@ -51,8 +55,10 @@ public class IOmanager {
         return fileName;
     }
 
+    // csv 파일 파싱
     public List<List<String>> readCSV(String path) {
         try {
+            ret.clear();
             // 입력 스트림 생성
             FileInputStream input = new FileInputStream(path);
             InputStreamReader reader = new InputStreamReader(input, "UTF-8");
@@ -85,7 +91,8 @@ public class IOmanager {
         return ret;
     }
 
-    public void writeCSV(String path, List<String> list) {
+    // 새로운 정보 쓰기(계좌 정보 생성 및 새로운 거래내역 추가)
+    public void writeCSV(String path, List<String> list, boolean append) {
 
         File csv = new File(path);
         FileOutputStream output = null;
@@ -93,7 +100,7 @@ public class IOmanager {
 
         try {
             // 출력 스트림 생성
-            output = new FileOutputStream(csv, true);
+            output = new FileOutputStream(csv, append);
             bw = new BufferedWriter(new OutputStreamWriter(output, "UTF-8"));
             String aData = "";
             for(int i=0; i<list.size(); i++){
@@ -116,5 +123,31 @@ public class IOmanager {
                 e.printStackTrace();
             }
         }
+    }
+
+    // 계좌 정보가 변경될 경우 해당되는 정보 변경을 위한 매소드
+    // 사용자, 계좌번호, 등등 변경되는 값이 여러개일경우는 함수 콜을 여러번할 것
+    public void rewriteCSV(String path, int key, String value, List<String> rewrite) {
+        List<List<String>> fileText = readCSV(path);
+        List<List<String>> newFileText = new ArrayList<>();
+
+        for (int i=0; i<fileText.size(); i++) {
+            if(fileText.get(i).get(key).equals(value)) {
+                newFileText.add(rewrite);
+            }
+            else {
+                newFileText.add(fileText.get(i));
+            }
+        }
+
+        for (int i=0; i<newFileText.size();i++){
+            if(i == 0) {
+                writeCSV(path, newFileText.get(i), false);
+                continue;
+            }
+            writeCSV(path, newFileText.get(i), true);
+        }
+
+        
     }
 }
