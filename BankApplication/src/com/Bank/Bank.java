@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,16 +70,17 @@ public class Bank {
             String bankName = accounts.get(i).getBankName();
 
 
-            System.out.println("계좌주("+user+")"+
-                    "  계좌번호("+accountNumber+")"+
-                    "  잔고("+balance+")"+
-                    "  은행명("+bankName+")" );
+            System.out.println("계좌주(" + user + ")" +
+                    "  계좌번호(" + accountNumber + ")" +
+                    "  잔고(" + balance + ")" +
+                    "  은행명(" + bankName + ")");
         }
     }
 
     // 입력받은 값이 12~14자리 인지 확인
     // 유효성검사 메소드
     public boolean checkAccount(String number) {
+
 
         String tmp = number.replaceAll("[- .]","");    //1)-, , . 을 ""으로 변환
         Pattern pattern = Pattern.compile("^\\d{12,14}$");       //2)문자, 특수문자가 입력될 경우 -> 계좌번호가 올바르지 않습니다.
@@ -109,7 +109,7 @@ public class Bank {
         user = sc.nextLine();
 
 
-        while(true) {
+        while (true) {
 
             System.out.print("계좌번호 : ");
             account = sc.nextLine();
@@ -117,7 +117,7 @@ public class Bank {
             // 정규표현식 조사할 것 만약 아니면 올바른 입력값이 들어오기전까지 반복
 
             //입력받은 값에서 숫자를 제외한 모든 문자열을 공백처리
-            if(isCorrect) {
+            if (isCorrect) {
                 break;
             }
 
@@ -162,14 +162,14 @@ public class Bank {
 
     // 계좌 검색하기
     public Account search() {
-        Pattern pattern = Pattern.compile("^[0-9]*$");
-        String checkNumber;
-        boolean end = false;
+        String checkNumber;             // 입력 받을 계좌번혼
+        boolean end = false;            // while문 반복을 멈추는 코드
 
         while (!end) {
             System.out.println("조회하실 계좌번호를 입력해주세요: ");
             checkNumber = sc.nextLine();
-            if (checkNumber.length() != 16) {
+            boolean isCorrect = checkAccount(checkNumber);
+            if (isCorrect == false) {
                 System.out.println("잘못된 입력입니다");
                 break;
             }
@@ -188,6 +188,7 @@ public class Bank {
                 }
             }
         }
+//        Account.seachDnw(user, number, blance,  );
         return null;
     }
 
@@ -212,10 +213,11 @@ public class Bank {
 
     }
 
+
     public void notifyAccountInfoChange(String accountNumber, List<String> account) {
         // key 1 = 어카운트로 탐색(명시할것)
         io.rewriteCSV(ACCOUNTPATH, 1, accountNumber, account);
         
     }
-    
+
 }
