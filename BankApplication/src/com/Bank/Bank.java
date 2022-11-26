@@ -100,8 +100,6 @@ public class Bank {
             account = sc.nextLine();
             boolean isCorrect = checkAccount(account);
             // 정규표현식 조사할 것 만약 아니면 올바른 입력값이 들어오기전까지 반복
-
-            //입력받은 값에서 숫자를 제외한 모든 문자열을 공백처리
             if(isCorrect) {
                 break;
             }
@@ -142,8 +140,32 @@ public class Bank {
 
     // 계좌 관리하기 (수정 or 삭제)
     public void manage() {
+        String account = "";
 
+
+        while(true) {
+            System.out.println("등록된 계좌를 삭제합니다.");
+            System.out.println("삭제할 계좌번호 : ");
+            account = sc.nextLine();
+            boolean isCorrect = checkAccount(account);      //계좌번호가 올바른지 확인.
+
+            if (isCorrect) {
+                break;
+            }
+        }
+        System.out.println("정상적으로 처리 되었습니다.");
+
+        Account deleteAccount = new Account(account); //여기에서 생성자를 만들었는데 괜찮은지?
+        accounts.remove(deleteAccount);
+
+        String temp[] = {account};
+        List<String> accountInfo = Arrays.asList(temp);
+
+        // 해당 계좌를 csv 파일에 입력해주기
+        io.writeCSV(ACCOUNTPATH, accountInfo);
     }
+
+
 
     // 계좌 검색하기
     public Account search() {
@@ -185,12 +207,12 @@ public class Bank {
         System.out.println("---------");
         for (int i = 0; i < this.accounts.size(); i++) {
             String user = accounts.get(i).getUser();
-            String accountNumger = accounts.get(i).getAccountNumber();
+            String accountNumber = accounts.get(i).getAccountNumber();
             int balance = accounts.get(i).getBalance();
             String bankName = accounts.get(i).getBankName();
 
             System.out.println("계좌주(" + user + ")" +
-                    "  계좌번호(" + accountNumger + ")" +
+                    "  계좌번호(" + accountNumber + ")" +
                     "  잔고(" + balance + ")" +
                     "  은행명(" + bankName + ")");
         }
