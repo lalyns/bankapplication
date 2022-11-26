@@ -18,7 +18,20 @@ public class Bank {
 
     // 멤버변수
     List<Account> accounts;
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
     IOmanager io;
+
+    // 싱글톤 선언
+    private static Bank instance;
+    public static Bank getInstance() {
+        if (instance == null) {
+            instance = new Bank();
+        }
+        return instance;
+    }
 
     // -> 하나의 계좌만 찾게 될거같고
     HashMap<String, Account> number = new HashMap<>();
@@ -81,6 +94,8 @@ public class Bank {
         }
 
     }
+
+    // 계좌 등록하기
     public void register() {
         // 예금주, 계좌번호, 잔고, 은행명을 기입한다.
         String user = "";
@@ -135,7 +150,7 @@ public class Bank {
         List<String> accountInfo = Arrays.asList(temp);
 
         // 해당 계좌를 csv 파일에 입력해주기
-        io.writeCSV(ACCOUNTPATH, accountInfo);
+        io.writeCSV(ACCOUNTPATH, accountInfo, true);
     }
 
     ;
@@ -195,6 +210,12 @@ public class Bank {
                     "  은행명(" + bankName + ")");
         }
 
+    }
+
+    public void notifyAccountInfoChange(String accountNumber, List<String> account) {
+        // key 1 = 어카운트로 탐색(명시할것)
+        io.rewriteCSV(ACCOUNTPATH, 1, accountNumber, account);
+        
     }
     
 }
