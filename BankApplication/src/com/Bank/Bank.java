@@ -1,6 +1,5 @@
 package com.Bank;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +10,8 @@ import java.util.regex.Pattern;
 
 import com.IOmanager;
 import com.Account.Account;
+
+import Main.UserInterface;
 
 public class Bank {
     // 상수
@@ -70,7 +71,6 @@ public class Bank {
             int balance = accounts.get(i).getBalance();
             String bankName = accounts.get(i).getBankName();
 
-
             System.out.println("계좌주(" + user + ")" +
                     "  계좌번호(" + accountNumber + ")" +
                     "  잔고(" + balance + ")" +
@@ -81,8 +81,6 @@ public class Bank {
     // 입력받은 값이 12~14자리 인지 확인
     // 유효성검사 메소드
     public boolean checkAccount(String number) {
-
-
         String tmp = number.replaceAll("[- .]","");    //1)-, , . 을 ""으로 변환
         Pattern pattern = Pattern.compile("^\\d{12,14}$");       //2)문자, 특수문자가 입력될 경우 -> 계좌번호가 올바르지 않습니다.
         Matcher matcher = pattern.matcher(tmp);
@@ -93,7 +91,6 @@ public class Bank {
             System.out.println("계좌번호가 올바르지 않습니다." + number);
             return false;
         }
-
     }
 
     // 계좌 등록하기
@@ -109,9 +106,7 @@ public class Bank {
         System.out.print("계좌주 : ");
         user = sc.nextLine();
 
-
         while (true) {
-
             System.out.print("계좌번호 : ");
             account = sc.nextLine();
             boolean isCorrect = checkAccount(account);
@@ -121,7 +116,6 @@ public class Bank {
             if (isCorrect) {
                 break;
             }
-
         }
 
         while (true) {
@@ -140,13 +134,10 @@ public class Bank {
 
         // 거래내역 파일 생성후, 거래내역 파일의 주소를 저장해서 넣어준다.
         trade = io.createCSV(Account.TRADEPATH, accounts.size() + 1);
-
-
         Account newAccount = new Account(user, account, balance, bankName, trade);
 
         // 현재 계좌 리스트에 새로운 계좌 정보를 추가해준다
         accounts.add(newAccount);
-
         String temp[] = {user, account, String.valueOf(balance), bankName, trade};
         List<String> accountInfo = Arrays.asList(temp);
 
@@ -154,36 +145,88 @@ public class Bank {
         io.writeCSV(ACCOUNTPATH, accountInfo, true);
     }
 
-    ;
-    public  void deleteAccount() {
-        int index = -1;
+    
+
+// 계좌 관리하기 (수정 or 삭제)
+    public void manage(int i) {
+        if (i == 1){
+            modifyAccount();
+        }
+        else if (i == 2) {
+            deleteAccount();
+        }
+    }
+
+    private void modifyAccount() {
+        int index = UserInterface.STANDARDVALUE;
+
+        // 초기값에 해당하면 계속 루프시켜줌
+        while (index == UserInterface.STANDARDVALUE) {
+
+            searchAll();
+
+            System.out.println("바꿀 계좌를 선택해주세요");
+            
+            index = UserInterface.checkInputInteger();
+
+            if (index < 1 || index > accounts.size()) {
+                index = UserInterface.STANDARDVALUE;
+            }
+        }
 
 
-        while (true) {
+        // 수정되는 항목? 일단 사용자, 계좌번호만
+        System.out.println("바꿀 사용자: ");
+        String user = sc.nextLine();
+
+        boolean isQuit = false;
+        String accountNumber = "";
+        while (!isQuit) {
+            System.out.println("바꿀 계좌번호: ");
+            accountNumber = sc.nextLine();
+            isQuit = checkAccount(accountNumber);
+        }
+
+        accounts.get(index -1).setUser(user);
+        String preAccountNumber = accounts.get(index -1).getAccountNumber();
+        accounts.get(index -1).setAccountNumber(accountNumber);
+
+        String temp[] = toArray(accounts.get(index-1));
+
+        io.rewriteCSV(ACCOUNTPATH, preAccountNumber, Arrays.asList(temp));
+    }
+
+    private void deleteAccount() {
+        int index = UserInterface.STANDARDVALUE;
+
+        while (index == UserInterface.STANDARDVALUE) {
             searchAll(); //등록된 계좌 목록 조회하기.
 
             System.out.println("등록된 계좌를 삭제합니다.");
             System.out.println("삭제할 계좌목록 : ");
-            index = Integer.valueOf(sc.nextLine());
+            index = UserInterface.checkInputInteger();
 
 
             if (index < 1 || index > accounts.size()) {
                 System.out.println("잘못된 입력입니다.");
                 continue;
             }  
-            Account tempaccount  = accounts.get(index - 1);
-            accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
+            
+            break;
+        }
 
-            for (int i=-1; i<accounts.size(); i++) {
-                if (i == -1) {
-                    String temp[] = {"예금주","계좌번호","잔고","은행명","거래내역"};
-                    io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , false);
-                    continue;
-                }
-                String temp[] = toArray(accounts.get(i));
-                io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , true);
-                io.deleteCSV(tempaccount.getFileName());
+        Account tempaccount  = accounts.get(index - 1);
+        accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
+
+        for (int i=-1; i<accounts.size(); i++) {
+            if (i == -1) {
+                String temp[] = {"예금주","계좌번호","잔고","은행명","거래내역"};
+                io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , false);
+                continue;
             }
+            String temp[] = toArray(accounts.get(i));
+            io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , true);
+            io.deleteCSV(tempaccount.getFileName());
         }
     }
 
@@ -196,47 +239,73 @@ public class Bank {
 
         return temp;
     }
-
-// 계좌 관리하기 (수정 or 삭제)
-    public void manage() {
-
-
-    }
-
-
-
+    
     // 계좌 검색하기
     public Account search() {
-        String checkNumber;             // 입력 받을 계좌번혼
-        boolean end = false;            // while문 반복을 멈추는 코드
+        int input = UserInterface.STANDARDVALUE;
+        String checkNumber;             // 입력 받을 계좌번호
+        String name;
 
-        while (!end) {
-            System.out.println("조회하실 계좌번호를 입력해주세요: ");
-            checkNumber = sc.nextLine();
-            boolean isCorrect = checkAccount(checkNumber);
-            if (isCorrect == false) {
-                System.out.println("잘못된 입력입니다");
+        while (input == UserInterface.STANDARDVALUE) {
+            System.out.println("계좌를 찾을 방법을 선택하세요.");
+            System.out.println("1. 이름");
+            System.out.println("2. 계좌번호");
+
+            input = UserInterface.checkInputInteger();
+        }
+
+        // 동명이인 또는 한사람이 여러개의 계좌를 가지고있을 경우는?
+        if (input == 1) {
+            while (true) {
+                System.out.println("조회하실 이름을 입력해주세요: ");
+                name = sc.nextLine();
+
+                for (int i = 0; i < this.accounts.size(); i++) {
+                    Account account = accounts.get(i);
+                    if (account.getUser().equals(name)) {
+                        System.out.println("계좌주(" + account.getUser() + ")" +
+                                "  계좌번호(" + account.getAccountNumber() + ")" +
+                                "  잔고(" + account.getBalance() + ")" +
+                                "  은행명(" + account.getBankName() + ")");
+                        return account;
+                    }
+                }
+                
+                System.out.println("해당되는 계좌번호가 존재하지 않습니다.");
                 break;
             }
-
-            // 계좌 정규표현식으로 포멧이 맞는지 확인
-            for (int i = 0; i < this.accounts.size(); i++) {
-                Account account = accounts.get(i);
-
-                if (account.getAccountNumber().equals(checkNumber)) {
-                    System.out.println("계좌주(" + account.getUser() + ")" +
-                            "  계좌번호(" + account.getAccountNumber() + ")" +
-                            "  잔고(" + account.getBalance() + ")" +
-                            "  은행명(" + account.getBankName() + ")");
-                    end = true;
-                    return account;
-                }
-            }
         }
+        else if (input == 2){
+            while (true) {
+                System.out.println("조회하실 계좌번호를 입력해주세요: ");
+                checkNumber = sc.nextLine();
+                
+                // 계좌 정규표현식으로 포멧이 맞는지 확인
+                boolean isCorrect = checkAccount(checkNumber);
+
+                if (isCorrect == false) {
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                    continue;
+                }
+
+                for (int i = 0; i < this.accounts.size(); i++) {
+                    Account account = accounts.get(i);
+                    if (account.getAccountNumber().equals(checkNumber)) {
+                        System.out.println("계좌주(" + account.getUser() + ")" +
+                                "  계좌번호(" + account.getAccountNumber() + ")" +
+                                "  잔고(" + account.getBalance() + ")" +
+                                "  은행명(" + account.getBankName() + ")");
+                        return account;
+                    }
+                }
+                
+                System.out.println("해당되는 계좌번호가 존재하지 않습니다.");
+                break;
+            }
+    }
         return null;
     }
 
-    ;
 
     // 계좌 검색하기
     public void searchAll() {
@@ -249,7 +318,7 @@ public class Bank {
             int balance = accounts.get(i).getBalance();
             String bankName = accounts.get(i).getBankName();
 
-            System.out.println("계좌주(" + user + ")" +
+            System.out.println("["+ (i + 1) +"] "+"계좌주(" + user + ")" +
                     "  계좌번호(" + accountNumber + ")" +
                     "  잔고(" + balance + ")" +
                     "  은행명(" + bankName + ")");
@@ -260,7 +329,7 @@ public class Bank {
 
     public void notifyAccountInfoChange(String accountNumber, List<String> account) {
         // key 1 = 어카운트로 탐색(명시할것)
-        io.rewriteCSV(ACCOUNTPATH, 1, accountNumber, account);
+        io.rewriteCSV(ACCOUNTPATH, accountNumber, account);
         
     }
 
