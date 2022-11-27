@@ -68,9 +68,6 @@ public class Account {
     }
 
     // 입출금을 기록하는 매소드
-    // notify 필요할거 같은데?
-    // 델리게이트 사용하면 괜찮을거 같은데..
-    // 아니면 bank를 싱글톤 선언?
     void record(int fee, TradeType tradeType) {
         LocalDateTime dt = LocalDateTime.now();
         String date = dt.format((DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -78,8 +75,11 @@ public class Account {
         int type = tradeType.label();
         String tradeBankName = this.bankName;
 
+        Trade newTrade = new Trade(date, time, accountNumber, tradeType, fee, tradeBankName);
+        trades.add(newTrade);
         String temp[] = {date, time, String.valueOf(type), String.valueOf(fee), tradeBankName};
         List<String> list = Arrays.asList(temp);
+        
 
         IOmanager io = new IOmanager();
         io.writeCSV(TRADEPATH + this.fileName, list, true);
@@ -99,8 +99,18 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
-    // 거래내역 출력
-    void veiwTrades() {}
+    // 거래 내역 조회
+    public void searchAllTrades() {
+        for (int i = 0; i < this.trades.size(); i++) {
+            Trade trade = trades.get(i);
+            String tradeType = trade.getTradeType() == TradeType.Deposit ? "입금" : "출금";
+            System.out.println("일자: " + trade.getDate() + " " +
+                    "  시간: " + trade.getTime() + " " +
+                    "  입/출금 여부:" + tradeType + " " +
+                    "  금액:" + trade.getFee() + " " +
+                    "  은행명: " + trade.getBankName());
+        }
+    }
 
     // 잔고확인
     public String getUser() { return user; }

@@ -47,11 +47,6 @@ public class Trade {
     }
 
     // 메소드
-    // 거래 내역 조회
-    public Trade getTrade() {
-        return this;
-    }
-
     // 게터
     public String getDate() { return date; }
     public String getTime() { return time; }

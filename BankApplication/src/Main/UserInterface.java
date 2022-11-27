@@ -221,7 +221,7 @@ public class UserInterface {
                 break;
             case VEIWTRADES:
                 System.out.println("거래 내역을 조회합니다");
-//                reTurnAccount.veiwTrades();
+                curAccount.searchAllTrades();
                 break;
             case RETURN:
                 System.out.println("은행 메뉴로 돌아갑니다.");
