@@ -2,6 +2,8 @@ package Main;
 
 import java.util.Scanner;
 
+import javax.xml.catalog.Catalog;
+
 import com.Account.Account;
 import com.Bank.Bank;
 
@@ -100,7 +102,8 @@ public class UserInterface {
             case BANKMENU_SEARCH :
                 System.out.println("계좌를 찾습니다.");
                 reTurnAccount = bank.search();
-                curType = MenuType.ACCOUNT;
+                if (reTurnAccount != null)
+                    curType = MenuType.ACCOUNT;
                 break;
             case BANKMENU_SEARCHALL :
                 System.out.println("전체 계좌를 조회합니다.");
@@ -112,12 +115,20 @@ public class UserInterface {
     // 계좌 메뉴 선택시 해당 메뉴를 수행하는 메소드
     private void accountMenu(int sellection) {
 
-        int fee;
+        int fee = STANDARD;
+
         switch (sellection) {
             case ACCOUNT_DEPOSIT:
                 System.out.println("입금을 시작합니다. 금액을 입력해주세요");
-                fee = sc.nextInt();
-                reTurnAccount.deposit(fee);
+                try{
+                    fee = Integer.valueOf(sc.nextLine());
+                    reTurnAccount.deposit(fee);
+                    int balance = reTurnAccount.getBalance();
+                    System.out.println("현재 잔액 : "+balance);
+                }
+                catch (NumberFormatException e) {
+                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
+                }
                 break;
             case ACCOUNT_WITHDRAW:
                 System.out.println("출금 시작");

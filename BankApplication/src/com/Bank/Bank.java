@@ -169,10 +169,32 @@ public class Bank {
 
             if (index < 1 || index > accounts.size()) {
                 System.out.println("잘못된 입력입니다.");
-            } else {
-                accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
+                continue;
+            }  
+            Account tempaccount  = accounts.get(index - 1);
+            accounts.remove(index - 1);      //0보다 작거나 계좌리스트인덱스보다 큰 수 입력할 경우 잘못된입력 출력하고싶음
+
+            for (int i=-1; i<accounts.size(); i++) {
+                if (i == -1) {
+                    String temp[] = {"예금주","계좌번호","잔고","은행명","거래내역"};
+                    io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , false);
+                    continue;
+                }
+                String temp[] = toArray(accounts.get(i));
+                io.writeCSV(ACCOUNTPATH, Arrays.asList(temp) , true);
+                io.deleteCSV(tempaccount.getFileName());
             }
         }
+    }
+
+    public String[] toArray(Account account) {
+        String temp[] = { account.getUser(),
+            account.getAccountNumber(),
+            String.valueOf(account.getBalance()),
+            account.getBankName(),
+            account.getFileName() };
+
+        return temp;
     }
 
 // 계좌 관리하기 (수정 or 삭제)
