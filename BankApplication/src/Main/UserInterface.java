@@ -112,18 +112,22 @@ public class UserInterface {
     // 계좌 메뉴 선택시 해당 메뉴를 수행하는 메소드
     private void accountMenu(int sellection) {
 
+        int fee;
         switch (sellection) {
             case ACCOUNT_DEPOSIT:
-                System.out.println("입금을 시작");
-//                reTurnAccount.deposit();
+                System.out.println("입금을 시작합니다. 금액을 입력해주세요");
+                fee = sc.nextInt();
+                reTurnAccount.deposit(fee);
                 break;
             case ACCOUNT_WITHDRAW:
                 System.out.println("출금 시작");
-//                reTurnAccount.withdraw();
+                fee = 0;
+                fee = sc.nextInt();
+                reTurnAccount.withdraw(fee);
                 break;
             case ACCOUNT_SEARCH:
                 System.out.println("잔고를 확인합니다");
-//                Account.search();
+//                reTurnAccount.search();
                 break;
             case ACCOUNT_VEIWTRADES:
                 System.out.println("거래 내역을 조회합니다");

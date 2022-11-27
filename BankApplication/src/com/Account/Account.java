@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import com.IOmanager;
 import com.Bank.Bank;
@@ -53,6 +54,7 @@ public class Account {
     }
 
     // 매소드
+
 
     // 입금
     public void deposit(int fee) {
