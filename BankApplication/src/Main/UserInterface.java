@@ -85,7 +85,6 @@ public class UserInterface {
     }
 
     // 게터 및 세터
-    public MenuType getCurType() { return curType; }
     public void setCurType(MenuType curType) { this.curType = curType; }
 
     // 생성자
@@ -98,11 +97,8 @@ public class UserInterface {
 
     // 메소드
     public void run() {   
-
         int sellection = STANDARDVALUE;
-
         while(!isQuit) {
-            
             // 현재 메뉴를 출력하는 창
             switch (curType) {
                 case BANK :
@@ -171,7 +167,7 @@ public class UserInterface {
                 System.out.println("계좌를 찾습니다.");
                 curAccount = bank.search();
                 if (curAccount != null)
-                    curType = MenuType.ACCOUNT;
+                    setCurType(MenuType.ACCOUNT);
                 break;
 
             case SEARCHALL :
@@ -221,7 +217,7 @@ public class UserInterface {
                 break;
             case SEARCH:
                 System.out.println("잔고를 확인합니다");
-//                reTurnAccount.search();
+                System.out.println("현재 잔고 : "+ curAccount.getBalance() +"원");
                 break;
             case VEIWTRADES:
                 System.out.println("거래 내역을 조회합니다");
@@ -230,7 +226,7 @@ public class UserInterface {
             case RETURN:
                 System.out.println("은행 메뉴로 돌아갑니다.");
                 curAccount = null;
-                curType = MenuType.BANK;
+                setCurType(MenuType.BANK);
                 break;
             default :
                 System.out.println("잘못된 메뉴입니다.");
