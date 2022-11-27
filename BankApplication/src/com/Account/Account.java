@@ -53,8 +53,6 @@ public class Account {
     }
 
     // 매소드
-
-
     // 입금
     public void deposit(int fee) {
         this.balance += fee;

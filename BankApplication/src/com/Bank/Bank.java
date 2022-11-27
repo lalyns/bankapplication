@@ -193,7 +193,7 @@ public class Bank {
 
         String temp[] = toArray(accounts.get(index-1));
 
-        io.rewriteCSV(ACCOUNTPATH, 1, preAccountNumber, Arrays.asList(temp));
+        io.rewriteCSV(ACCOUNTPATH, preAccountNumber, Arrays.asList(temp));
     }
 
     private void deleteAccount() {
@@ -244,6 +244,7 @@ public class Bank {
     public Account search() {
         int input = UserInterface.STANDARDVALUE;
         String checkNumber;             // 입력 받을 계좌번호
+        String name;
 
         while (input == UserInterface.STANDARDVALUE) {
             System.out.println("계좌를 찾을 방법을 선택하세요.");
@@ -253,36 +254,58 @@ public class Bank {
             input = UserInterface.checkInputInteger();
         }
 
-        while (true) {
-            System.out.println("조회하실 계좌번호를 입력해주세요: ");
-            checkNumber = sc.nextLine();
-            
-            // 계좌 정규표현식으로 포멧이 맞는지 확인
-            boolean isCorrect = checkAccount(checkNumber);
+        // 동명이인 또는 한사람이 여러개의 계좌를 가지고있을 경우는?
+        if (input == 1) {
+            while (true) {
+                System.out.println("조회하실 이름을 입력해주세요: ");
+                name = sc.nextLine();
 
-            if (isCorrect == false) {
-                System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
-                continue;
-            }
-
-            for (int i = 0; i < this.accounts.size(); i++) {
-                Account account = accounts.get(i);
-                if (account.getAccountNumber().equals(checkNumber)) {
-                    System.out.println("계좌주(" + account.getUser() + ")" +
-                            "  계좌번호(" + account.getAccountNumber() + ")" +
-                            "  잔고(" + account.getBalance() + ")" +
-                            "  은행명(" + account.getBankName() + ")");
-                    return account;
+                for (int i = 0; i < this.accounts.size(); i++) {
+                    Account account = accounts.get(i);
+                    if (account.getUser().equals(name)) {
+                        System.out.println("계좌주(" + account.getUser() + ")" +
+                                "  계좌번호(" + account.getAccountNumber() + ")" +
+                                "  잔고(" + account.getBalance() + ")" +
+                                "  은행명(" + account.getBankName() + ")");
+                        return account;
+                    }
                 }
+                
+                System.out.println("해당되는 계좌번호가 존재하지 않습니다.");
+                break;
             }
-            
-            System.out.println("해당되는 계좌번호가 존재하지 않습니다.");
-            break;
         }
+        else if (input == 2){
+            while (true) {
+                System.out.println("조회하실 계좌번호를 입력해주세요: ");
+                checkNumber = sc.nextLine();
+                
+                // 계좌 정규표현식으로 포멧이 맞는지 확인
+                boolean isCorrect = checkAccount(checkNumber);
+
+                if (isCorrect == false) {
+                    System.out.println("잘못된 입력입니다. 다시 입력해주세요.");
+                    continue;
+                }
+
+                for (int i = 0; i < this.accounts.size(); i++) {
+                    Account account = accounts.get(i);
+                    if (account.getAccountNumber().equals(checkNumber)) {
+                        System.out.println("계좌주(" + account.getUser() + ")" +
+                                "  계좌번호(" + account.getAccountNumber() + ")" +
+                                "  잔고(" + account.getBalance() + ")" +
+                                "  은행명(" + account.getBankName() + ")");
+                        return account;
+                    }
+                }
+                
+                System.out.println("해당되는 계좌번호가 존재하지 않습니다.");
+                break;
+            }
+    }
         return null;
     }
 
-    ;
 
     // 계좌 검색하기
     public void searchAll() {
@@ -306,7 +329,7 @@ public class Bank {
 
     public void notifyAccountInfoChange(String accountNumber, List<String> account) {
         // key 1 = 어카운트로 탐색(명시할것)
-        io.rewriteCSV(ACCOUNTPATH, 1, accountNumber, account);
+        io.rewriteCSV(ACCOUNTPATH, accountNumber, account);
         
     }
 
