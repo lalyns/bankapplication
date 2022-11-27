@@ -9,14 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.Account.Account;
 
-import Main.UserInterface;
 
 // csv파일 파싱을 위한 클래스
 public class IOmanager {
@@ -129,12 +127,12 @@ public class IOmanager {
 
     // 계좌 정보가 변경될 경우 해당되는 정보 변경을 위한 매소드
     // 사용자, 계좌번호, 등등 변경되는 값이 여러개일경우는 함수 콜을 여러번할 것
-    public void rewriteCSV(String path, int key, String value, List<String> rewrite) {
+    public void rewriteCSV(String path, String value, List<String> rewrite) {
         List<List<String>> fileText = readCSV(path);
         List<List<String>> newFileText = new ArrayList<>();
 
         for (int i=0; i<fileText.size(); i++) {
-            if(fileText.get(i).get(key).equals(value)) {
+            if(fileText.get(i).get(1).equals(value)) {
                 newFileText.add(rewrite);
             }
             else {
