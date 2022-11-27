@@ -61,6 +61,8 @@ public class UserInterface {
                 case ACCOUNT :
                     accountMenuPrinter();
                     break;
+                default :
+                    System.out.println("잘못된 접근입니다.");
             }
 
             try {
@@ -97,7 +99,23 @@ public class UserInterface {
                 break;
             case BANKMENU_MANAGE :
                 System.out.println("계좌를 수정/제거 합니다.");
-                bank.deleteAccount();
+                accountManagePrinter();
+                try{
+                    int tempSelection = Integer.valueOf(sc.nextLine());
+                    if (tempSelection == 1) {
+                        // 수정 하기
+                    }
+                    else if (tempSelection == 2) {
+                        bank.deleteAccount();
+                    }
+                    else {
+                        System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    System.out.println("잘못된 접근입니다 처음으로 돌아갑니다.");
+                }
                 break;
             case BANKMENU_SEARCH :
                 System.out.println("계좌를 찾습니다.");
@@ -109,6 +127,8 @@ public class UserInterface {
                 System.out.println("전체 계좌를 조회합니다.");
                 bank.searchAll();
                 break;
+            default :
+                System.out.println("잘못된 메뉴입니다.");
         }
     }
 
@@ -144,9 +164,16 @@ public class UserInterface {
                 System.out.println("거래 내역을 조회합니다");
 //                reTurnAccount.veiwTrades();
                 break;
+            default :
+                System.out.println("잘못된 메뉴입니다.");
         }
     }
     
+    private void accountManagePrinter() {
+        System.out.println("----계좌 관리----");
+        System.out.println("1. 수정");
+        System.out.println("2. 삭제");
+    }
 
     private void accountMenuPrinter() {
         System.out.println("----계좌 메뉴----");
