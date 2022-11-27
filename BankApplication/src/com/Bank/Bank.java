@@ -159,20 +159,21 @@ public class Bank {
 
     private void modifyAccount() {
         int index = UserInterface.STANDARDVALUE;
-        searchAll();
 
-        try {
+        // 초기값에 해당하면 계속 루프시켜줌
+        while (index == UserInterface.STANDARDVALUE) {
+
+            searchAll();
+
             System.out.println("바꿀 계좌를 선택해주세요");
-            index = Integer.valueOf(sc.nextLine());
-        } catch(Exception e) {
-            System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
-            return;
+            
+            index = UserInterface.checkInputInteger();
+
+            if (index < 1 || index > accounts.size()) {
+                index = UserInterface.STANDARDVALUE;
+            }
         }
 
-        if (index < 1 || index > accounts.size()) {
-            System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
-            return;
-        }
 
         // 수정되는 항목? 일단 사용자, 계좌번호만
         System.out.println("바꿀 사용자: ");
@@ -198,12 +199,12 @@ public class Bank {
     private void deleteAccount() {
         int index = UserInterface.STANDARDVALUE;
 
-        while (true) {
+        while (index == UserInterface.STANDARDVALUE) {
             searchAll(); //등록된 계좌 목록 조회하기.
 
             System.out.println("등록된 계좌를 삭제합니다.");
             System.out.println("삭제할 계좌목록 : ");
-            index = Integer.valueOf(sc.nextLine());
+            index = UserInterface.checkInputInteger();
 
 
             if (index < 1 || index > accounts.size()) {
@@ -239,17 +240,6 @@ public class Bank {
         return temp;
     }
     
-    public int checkInputInteger() {
-        int input = UserInterface.STANDARDVALUE;
-        try {
-            input = Integer.valueOf(sc.nextLine());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("잘못된 입력입니다. 다시입력해주세요.");
-        }
-        return input;
-    }
-
     // 계좌 검색하기
     public Account search() {
         int input = UserInterface.STANDARDVALUE;
@@ -260,7 +250,7 @@ public class Bank {
             System.out.println("1. 이름");
             System.out.println("2. 계좌번호");
 
-            input = checkInputInteger();
+            input = UserInterface.checkInputInteger();
         }
 
         while (true) {
@@ -305,7 +295,7 @@ public class Bank {
             int balance = accounts.get(i).getBalance();
             String bankName = accounts.get(i).getBankName();
 
-            System.out.println("계좌주(" + user + ")" +
+            System.out.println("["+ (i + 1) +"] "+"계좌주(" + user + ")" +
                     "  계좌번호(" + accountNumber + ")" +
                     "  잔고(" + balance + ")" +
                     "  은행명(" + bankName + ")");
