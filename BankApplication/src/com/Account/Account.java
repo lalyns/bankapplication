@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import com.IOmanager;
 import com.Bank.Bank;
@@ -90,6 +89,14 @@ public class Account {
     List<String> infotoList(Account account) {
         String temp[] = {this.user, this.accountNumber, String.valueOf(this.balance), this.bankName, this.fileName };
         return Arrays.asList(temp);
+    }
+
+    // 계좌 수정시 사용될 매소드
+    public void setUser(String user) {
+        this.user = user;
+    }
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     // 거래내역 출력

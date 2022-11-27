@@ -9,14 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.Account.Account;
 
-import Main.UserInterface;
 
 // csv파일 파싱을 위한 클래스
 public class IOmanager {
