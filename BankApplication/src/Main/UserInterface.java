@@ -1,11 +1,9 @@
 package Main;
 
-import java.util.Scanner;
-
-import javax.xml.catalog.Catalog;
-
 import com.Account.Account;
 import com.Bank.Bank;
+
+import java.util.Scanner;
 
 public class UserInterface {
 
@@ -136,6 +134,7 @@ public class UserInterface {
     private void accountMenu(int sellection) {
 
         int fee = STANDARD;
+        int balance = reTurnAccount.getBalance();
 
         switch (sellection) {
             case ACCOUNT_DEPOSIT:
@@ -143,7 +142,6 @@ public class UserInterface {
                 try{
                     fee = Integer.valueOf(sc.nextLine());
                     reTurnAccount.deposit(fee);
-                    int balance = reTurnAccount.getBalance();
                     System.out.println("현재 잔액 : "+balance);
                 }
                 catch (NumberFormatException e) {
@@ -152,9 +150,14 @@ public class UserInterface {
                 break;
             case ACCOUNT_WITHDRAW:
                 System.out.println("출금 시작");
-                fee = 0;
-                fee = sc.nextInt();
-                reTurnAccount.withdraw(fee);
+                try {
+                    fee = 0;
+                    fee = Integer.valueOf(sc.nextInt());
+                    reTurnAccount.withdraw(fee);
+                    System.out.println("현재 잔액 : "+balance);
+                }catch (NumberFormatException e) {
+                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
+                }
                 break;
             case ACCOUNT_SEARCH:
                 System.out.println("잔고를 확인합니다");
