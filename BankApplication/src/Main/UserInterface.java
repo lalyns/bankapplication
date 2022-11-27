@@ -2,6 +2,8 @@ package Main;
 
 import java.util.Scanner;
 
+import javax.xml.catalog.Catalog;
+
 import com.Account.Account;
 import com.Bank.Bank;
 
@@ -59,6 +61,8 @@ public class UserInterface {
                 case ACCOUNT :
                     accountMenuPrinter();
                     break;
+                default :
+                    System.out.println("잘못된 접근입니다.");
             }
 
             try {
@@ -95,43 +99,81 @@ public class UserInterface {
                 break;
             case BANKMENU_MANAGE :
                 System.out.println("계좌를 수정/제거 합니다.");
-                bank.deleteAccount();
+                accountManagePrinter();
+                try{
+                    int tempSelection = Integer.valueOf(sc.nextLine());
+                    if (tempSelection == 1) {
+                        // 수정 하기
+                    }
+                    else if (tempSelection == 2) {
+                        bank.deleteAccount();
+                    }
+                    else {
+                        System.out.println("잘못된 입력입니다. 처음으로 돌아갑니다.");
+                    }
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                    System.out.println("잘못된 접근입니다 처음으로 돌아갑니다.");
+                }
                 break;
             case BANKMENU_SEARCH :
                 System.out.println("계좌를 찾습니다.");
                 reTurnAccount = bank.search();
-                curType = MenuType.ACCOUNT;
+                if (reTurnAccount != null)
+                    curType = MenuType.ACCOUNT;
                 break;
             case BANKMENU_SEARCHALL :
                 System.out.println("전체 계좌를 조회합니다.");
                 bank.searchAll();
                 break;
+            default :
+                System.out.println("잘못된 메뉴입니다.");
         }
     }
 
     // 계좌 메뉴 선택시 해당 메뉴를 수행하는 메소드
     private void accountMenu(int sellection) {
 
+        int fee = STANDARD;
+
         switch (sellection) {
             case ACCOUNT_DEPOSIT:
-                System.out.println("입금을 시작");
-//                reTurnAccount.deposit();
+                System.out.println("입금을 시작합니다. 금액을 입력해주세요");
+                try{
+                    fee = Integer.valueOf(sc.nextLine());
+                    reTurnAccount.deposit(fee);
+                    int balance = reTurnAccount.getBalance();
+                    System.out.println("현재 잔액 : "+balance);
+                }
+                catch (NumberFormatException e) {
+                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
+                }
                 break;
             case ACCOUNT_WITHDRAW:
                 System.out.println("출금 시작");
-//                reTurnAccount.withdraw();
+                fee = 0;
+                fee = sc.nextInt();
+                reTurnAccount.withdraw(fee);
                 break;
             case ACCOUNT_SEARCH:
                 System.out.println("잔고를 확인합니다");
-//                Account.search();
+//                reTurnAccount.search();
                 break;
             case ACCOUNT_VEIWTRADES:
                 System.out.println("거래 내역을 조회합니다");
 //                reTurnAccount.veiwTrades();
                 break;
+            default :
+                System.out.println("잘못된 메뉴입니다.");
         }
     }
     
+    private void accountManagePrinter() {
+        System.out.println("----계좌 관리----");
+        System.out.println("1. 수정");
+        System.out.println("2. 삭제");
+    }
 
     private void accountMenuPrinter() {
         System.out.println("----계좌 메뉴----");

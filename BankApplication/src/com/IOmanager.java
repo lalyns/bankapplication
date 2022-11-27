@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.Account.Account;
+
 import Main.UserInterface;
 
 // csv파일 파싱을 위한 클래스
@@ -147,7 +149,21 @@ public class IOmanager {
             }
             writeCSV(path, newFileText.get(i), true);
         }
+    }
 
-        
+    public void deleteCSV(String fileName) {
+        File file = new File(Account.TRADEPATH + fileName);
+
+        if (file.exists()) {
+            if(file.delete()) {
+    			System.out.println("파일삭제 성공");
+            }
+            else {
+    			System.out.println("파일삭제 실패");
+            }
+        }
+        else {
+    		System.out.println("파일이 존재하지 않습니다.");
+        }
     }
 }

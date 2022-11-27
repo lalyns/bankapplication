@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import com.IOmanager;
 import com.Bank.Bank;
@@ -28,15 +29,15 @@ public class Account {
     }
 
     
-    public Account(String user, String accountNumber, int balance, String bankName, String trade) {
+    public Account(String user, String accountNumber, int balance, String bankName, String fileName) {
         this.user           = user;
         this.accountNumber  = accountNumber;
         this.balance        = balance;
         this.bankName       = bankName;
-        this.fileName       = trade;
+        this.fileName       = fileName;
 
         IOmanager io = new IOmanager();
-        List<List<String>> tradeLists = io.readCSV(TRADEPATH + trade);
+        List<List<String>> tradeLists = io.readCSV(TRADEPATH + fileName);
         trades = new ArrayList<>();
         for (int i=1; i<tradeLists.size(); i++)
         {
@@ -53,6 +54,7 @@ public class Account {
     }
 
     // 매소드
+
 
     // 입금
     public void deposit(int fee) {
@@ -99,5 +101,6 @@ public class Account {
     public int getBalance() { return balance; }
     public List<Trade> getTrades() { return trades; }
     public String getBankName() { return bankName; }
+    public String getFileName() { return fileName; }
     
 }
