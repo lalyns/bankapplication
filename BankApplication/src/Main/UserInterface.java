@@ -226,7 +226,7 @@ public class UserInterface {
                 curAccount = null;
                 setCurType(MenuType.BANK);
                 break;
-                
+
             default :
                 System.out.println("잘못된 메뉴입니다.");
         }

@@ -210,8 +210,8 @@ public class Bank {
             if (index < 1 || index > accounts.size()) {
                 System.out.println("잘못된 입력입니다.");
                 continue;
-            }  
-            
+            }
+            System.out.println("계좌삭제 완료.");
             break;
         }
 
