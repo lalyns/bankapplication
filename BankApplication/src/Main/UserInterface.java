@@ -190,30 +190,19 @@ public class UserInterface {
         AccountMenu menu = AccountMenu.valueOfLabel(sellection);
 
         int fee = STANDARDVALUE;
-        int balance = curAccount.getBalance();
 
         switch (menu) {
             case DEPOSIT:
-                System.out.println("입금을 시작합니다. 금액을 입력해주세요");
-                try{
-                    fee = Integer.valueOf(sc.nextLine());
-                    curAccount.deposit(fee);
-                    System.out.println("현재 잔액 : "+balance);
-                }
-                catch (NumberFormatException e) {
-                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
-                }
+                System.out.println("이전 잔액 : "+ curAccount.getBalance());
+                fee = checkInputInteger();
+                curAccount.deposit(fee);
+                System.out.println("현재 잔액 : "+ curAccount.getBalance());
                 break;
             case WITHDRAW:
-                System.out.println("출금 시작");
-                try {
-                    fee = 0;
-                    fee = Integer.valueOf(sc.nextInt());
-                    curAccount.withdraw(fee);
-                    System.out.println("현재 잔액 : "+balance);
-                }catch (NumberFormatException e) {
-                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
-                }
+                System.out.println("이전 잔액 : "+ curAccount.getBalance());
+                fee = checkInputInteger();
+                curAccount.withdraw(fee);
+                System.out.println("현재 잔액 : "+ curAccount.getBalance());
                 break;
             case SEARCH:
                 System.out.println("잔고를 확인합니다");
