@@ -198,8 +198,7 @@ public class UserInterface {
                 try{
                     fee = Integer.valueOf(sc.nextLine());
                     curAccount.deposit(fee);
-                    System.out.println("입금액 : "+fee +"원");
-                    System.out.println("현재 잔고 : "+ curAccount.getBalance() +"원");
+                    System.out.println("현재 잔액 : "+balance);
                 }
                 catch (NumberFormatException e) {
                     System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
@@ -211,8 +210,7 @@ public class UserInterface {
                     fee = 0;
                     fee = Integer.valueOf(sc.nextInt());
                     curAccount.withdraw(fee);
-                    System.out.println("출금액 : "+fee +"원");
-                    System.out.println("현재 잔고 : "+ curAccount.getBalance() +"원");
+                    System.out.println("현재 잔액 : "+balance);
                 }catch (NumberFormatException e) {
                     System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
                 }
