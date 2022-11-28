@@ -61,10 +61,6 @@ public class Account {
     
     // 출금
     public void withdraw(int fee) {
-        if(this.balance < fee) {
-            System.out.println("출금 실패! 잔고 부족");
-            return;
-        }
         this.balance -= fee;
         record(fee, TradeType.Withdraw);
     }

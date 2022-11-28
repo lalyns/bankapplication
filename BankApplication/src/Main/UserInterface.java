@@ -134,13 +134,11 @@ public class UserInterface {
     // 입력값이 정수인지 판별해주는 메소드
     public static int checkInputInteger() {
         int input = UserInterface.STANDARDVALUE;
-        while(input == UserInterface.STANDARDVALUE) {
-            try {
-                input = Integer.valueOf(UserInterface.getInstance().sc.nextLine());
-            } catch (Exception e) {
-                input = UserInterface.STANDARDVALUE;
-                System.out.println("잘못된 입력입니다. 다시입력해주세요.");
-            }
+        try {
+            input = Integer.valueOf(UserInterface.getInstance().sc.nextLine());
+        } catch (Exception e) {
+            input = UserInterface.STANDARDVALUE;
+            System.out.println("잘못된 입력입니다. 다시입력해주세요.");
         }
         return input;
     }
@@ -190,43 +188,46 @@ public class UserInterface {
     // 계좌 메뉴 선택시 해당 메뉴를 수행하는 메소드
     private void accountMenu(int sellection) {
         AccountMenu menu = AccountMenu.valueOfLabel(sellection);
+
         int fee = STANDARDVALUE;
+        int balance = curAccount.getBalance();
 
         switch (menu) {
             case DEPOSIT:
-                System.out.println("입금을 시작합니다.");
-                System.out.println("금액을 입력해주세요");
-                System.out.println("이전 잔액 : "+ curAccount.getBalance());
-                fee = checkInputInteger();
-                curAccount.deposit(fee);
-                System.out.println("현재 잔액 : "+ curAccount.getBalance());
+                System.out.println("입금을 시작합니다. 금액을 입력해주세요");
+                try{
+                    fee = Integer.valueOf(sc.nextLine());
+                    curAccount.deposit(fee);
+                    System.out.println("현재 잔액 : "+balance);
+                }
+                catch (NumberFormatException e) {
+                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
+                }
                 break;
-
             case WITHDRAW:
-                System.out.println("출금 시작합니다");
-                System.out.println("금액을 입력해주세요");
-                System.out.println("이전 잔액 : "+ curAccount.getBalance());
-                fee = checkInputInteger();
-                curAccount.withdraw(fee);
-                System.out.println("현재 잔액 : "+ curAccount.getBalance());
+                System.out.println("출금 시작");
+                try {
+                    fee = 0;
+                    fee = Integer.valueOf(sc.nextInt());
+                    curAccount.withdraw(fee);
+                    System.out.println("현재 잔액 : "+balance);
+                }catch (NumberFormatException e) {
+                    System.out.println("잘못된 금액입니다. 메뉴로 돌아갑니다.");
+                }
                 break;
-
             case SEARCH:
                 System.out.println("잔고를 확인합니다");
                 System.out.println("현재 잔고 : "+ curAccount.getBalance() +"원");
                 break;
-
             case VEIWTRADES:
                 System.out.println("거래 내역을 조회합니다");
                 curAccount.searchAllTrades();
                 break;
-
             case RETURN:
                 System.out.println("은행 메뉴로 돌아갑니다.");
                 curAccount = null;
                 setCurType(MenuType.BANK);
                 break;
-
             default :
                 System.out.println("잘못된 메뉴입니다.");
         }
